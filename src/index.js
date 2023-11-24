@@ -3,16 +3,20 @@ const path = require('node:path')
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 420,
+    height: 240,
     frame:false,
+    hasShadow: false,
     titleBarStyle: 'hidden',
+    backgroundColor: '#00FFFFFF',
+    titleBarStyle: 'customButtonsOnHover',
+    // resizable:false,
+    transparent: true,
     webPreferences: {
       preload: path.join(__dirname, 'render', 'index.js')
     }
   })
   win.loadFile('./src/index.html')
-  // win.webContents.openDevTools()
 }
 
 app.whenReady().then(() => {

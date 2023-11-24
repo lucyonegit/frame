@@ -1,4 +1,4 @@
-class Render {
+export class Render {
   constructor(){
     this.dpr = window.devicePixelRatio;
     this.canvas = null
@@ -43,9 +43,7 @@ class Render {
     this.canvasCtx = context;
   };
 }
-
-
-class FrameBar extends Render {
+export class FrameBar extends Render {
   constructor(config) {
     super();
     const { containerId } = config || {};
@@ -55,7 +53,7 @@ class FrameBar extends Render {
     this.close = ()=>{}
     this.getData = ()=>([])
     this.styleConfig = {
-      fftSize: 256,
+      fftSize:256,
       vertexColor: '#0f0'
     }
   }
@@ -111,8 +109,8 @@ class FrameBar extends Render {
       let color = i / data.length * 360
       this.canvasCtx.fillStyle =  `hsl(${color},50%,50%)`
       this.canvasCtx.fillRect(
-        x,
-        y / 2,
+        x ,
+        y,
         bar_w ,
         barHeight
       );
@@ -125,19 +123,16 @@ class FrameBar extends Render {
       } else {
         this.maxHeight[i] = y;
       }
-      // this.canvasCtx.fillStyle = this.styleConfig.vertexColor;
-      if(this.maxHeight[i] < originalHeight){
-        this.canvasCtx.beginPath();
-        this.canvasCtx.arc(
-          Math.round(x + bar_w),
-          Math.round(this.maxHeight[i]), 
-          Math.round(bar_w / 2),
-          0, 
-          Math.PI,true)
-        this.canvasCtx.fill()
-        this.canvasCtx.closePath();
-      }
-      
+      this.canvasCtx.fillStyle = this.styleConfig.vertexColor;
+      this.canvasCtx.beginPath();
+      this.canvasCtx.arc(
+        Math.round(x + bar_w / 2),
+        Math.round(this.maxHeight[i] + bar_w / 2), 
+        Math.round(bar_w / 2),
+        0, 
+        2 * Math.PI)
+      this.canvasCtx.fill()
+      this.canvasCtx.closePath();
       // this.canvasCtx.fillRect(
       //   x ,
       //   this.maxHeight[i],
@@ -163,10 +158,3 @@ class FrameBar extends Render {
   };
 }
 
-window.addEventListener("load", () => {
-  let frameBar = new FrameBar();
-  frameBar.run();
-  window.addEventListener("resize", () => {
-    frameBar.reset();
-  });
-});
